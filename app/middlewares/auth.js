@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
     res.status(401).send(validate.errors);
   } else {
     jwt.verify(req.headers.authorization, env.secret, (err, decoded) => {
-      if (err) return res.status(401).end();
+        if (err) return res.status(401).end(err.message);
       if (decoded) {
         require('./../models/user').getById(decoded.id, (err, user) => {
           if (err) return next(err);

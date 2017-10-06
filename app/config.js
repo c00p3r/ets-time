@@ -24,7 +24,7 @@ let config = {
       user: 'root',
       password: '1',
       database: 'ets',
-      port: '3306'
+        port: '3307'
     },
     migrations: {
       tableName: 'knex_migrations',

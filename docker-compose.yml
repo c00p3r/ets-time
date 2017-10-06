@@ -10,7 +10,7 @@ services:
     volumes:
       - ~/.ets-databases:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "3307:3306"
   adminer:
     image: asergey/adminer-128:1.0.2
     container_name: ets-adminer
