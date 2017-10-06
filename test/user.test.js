@@ -10,8 +10,8 @@ const urls = {
   users: '/api/v1/users'
 };
 
-let token_owner = jwt.sign({id: 1}, env.secret);
-let token_member = jwt.sign({id: 3}, env.secret);
+let token_owner = jwt.sign({ id: 1 }, env.secret);
+let token_member = jwt.sign({ id: 3 }, env.secret);
 
 const createCredentials = [
   [
@@ -490,10 +490,10 @@ const updateCredentials = [
 ];
 
 const listCredentials = [
-  [{username: 'na'}, 400, 'Username must be at least 3 characters'],
-  [{position: 'otherr'}, 400, 'Invalid position'],
-  [{role: 'owne'}, 400, 'Invalid role'],
-  [{position: 'php, ios'}, 400, 'Invalid position']
+  [{ username: 'na' }, 400, 'Username must be at least 3 characters'],
+  [{ position: 'otherr' }, 400, 'Invalid position'],
+  [{ role: 'owne' }, 400, 'Invalid role'],
+  [{ position: 'php, ios' }, 400, 'Invalid position']
 ];
 
 describe('User controller', () => {
