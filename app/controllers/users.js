@@ -7,17 +7,24 @@ const knex = require('./../libs/knex');
 const async = require('async');
 
 // username, position, role
-const criteriaForList = function (p) {
+const criteriaForList = function (params) {
   return function () {
-    console.log(p);
-    if (p.username) {
-      this.where('first_name', 'like', '%' + p.username + '%').orWhere('last_name', 'like', '%' + p.username + '%');
+    let query = this;
+    if (params.username) {
+      query
+        .where('first_name', 'like', '%' + params.username + '%')
+        .orWhere('last_name', 'like', '%' + params.username + '%');
     }
-    if (p.position) {
-      this.whereIn('position', p.position.split(','));
+    if (params.role) {
+      query.where('roles', 'like', '%' + params.role + '%');
     }
-    if (p.role) {
-      this.where('roles', 'like', '%' + p.role + '%');
+    if (params.position) {
+      let positions = params.position.split(',');
+      query.where(function () {
+        for (let i = 0; i < positions.length; i++) {
+          this.orWhere('position', 'like', '%' + positions[i] + '%');
+        }
+      });
     }
   };
 };
@@ -41,21 +48,21 @@ router.patch('/', user_edit, (req, res, next) => {
 
 /* GET users listing. */
 router.get('/', users_list, async (req, res) => {
-  let param = req.query;
+  let params = req.query;
 
   async.parallel(
     {
       count: callback => {
         knex('users')
-          .where(criteriaForList(param))
-          .first()
+          .where(criteriaForList(params))
           .count('* as c')
+          .first()
           .asCallback(callback);
       },
       list: callback => {
         knex('users')
           .select('first_name', 'last_name', 'roles', 'position', 'email', 'rate', 'id', 'locked')
-          .where(criteriaForList(param))
+          .where(criteriaForList(params))
           .orderBy('locked', 'asc')
           .orderBy('first_name', 'asc')
           .asCallback(callback);

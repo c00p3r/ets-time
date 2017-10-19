@@ -28,7 +28,7 @@ exports.up = knex => {
       first_name: 'Member',
       last_name: 'Member',
       password: bcrypt.hashSync('password', salt),
-      position: 'nodejs',
+      position: 'nodejs|php',
       roles: 'member',
       created_at: new Date(),
       updated_at: new Date()
@@ -38,7 +38,7 @@ exports.up = knex => {
       first_name: 'John',
       last_name: 'Doe',
       password: bcrypt.hashSync('password', salt),
-      position: 'php',
+      position: 'php|python',
       roles: 'member',
       created_at: new Date(),
       updated_at: new Date()
@@ -49,6 +49,16 @@ exports.up = knex => {
       last_name: 'Bones',
       password: bcrypt.hashSync('password', salt),
       position: 'ios',
+      roles: 'member',
+      created_at: new Date(),
+      updated_at: new Date()
+    },
+    {
+      email: 'user3@mail.com',
+      first_name: 'Jakie',
+      last_name: 'Dolls',
+      password: bcrypt.hashSync('password', salt),
+      position: 'fed|nodejs',
       roles: 'member',
       created_at: new Date(),
       updated_at: new Date()

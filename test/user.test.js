@@ -635,11 +635,13 @@ describe('User controller', () => {
 
   it('returns a list filtered by positions', done => {
     console.log(done);
+    const positions = ['php', 'nodejs', 'fed'];
     agent
       .get(urls.users)
       .set('authorization', token_owner)
       .query({
-        position: 'php,ios'
+        position: positions.join(','),
+        role: 'member'
       })
       .end((err, res) => {
         assert.equal(200, res.statusCode);
@@ -647,12 +649,17 @@ describe('User controller', () => {
         assert.notEqual(null, res.body.count);
         assert.notEqual(null, res.body.data);
 
-        let wrongItem = false;
-        console.log(res.body.data);
+        let matches = 0;
+        // console.log(res.body.data);
         res.body.data.forEach(item => {
-          if (!(item.position === 'php' || item.position === 'ios')) wrongItem = true;
+          for (let i = 0; i < positions.length; i++) {
+            if (item.position.indexOf(positions[i]) !== -1) {
+              matches++;
+              break;
+            }
+          }
         });
-        assert.equal(false, wrongItem);
+        assert.equal(matches, res.body.data.length);
         done();
       });
   });
