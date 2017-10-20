@@ -21,7 +21,7 @@ router.get('/', (req, res, next) => {
 router.post('/', project_create, (req, res, next) => {
   knex('projects')
     .insert(req._vars)
-    .then(result => res.status(201).send({id: result.id}))
+    .then(result => res.status(201).send({id: result[0]}))
     .catch(next);
 });
 

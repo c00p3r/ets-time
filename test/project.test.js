@@ -4,6 +4,7 @@ const agent = require('supertest').agent(app);
 const jwt = require('jsonwebtoken');
 const env = require('./../app/config');
 const assert = require('assert');
+const moment = require('moment');
 
 const ADMIN_ID = 1;
 const PM_ID = 2;
@@ -22,7 +23,7 @@ describe('Projects controller', () => {
     agent
       .get('/api/v1/projects')
       .set('authorization', token_owner)
-      .end((er, res) => {
+      .end((err, res) => {
         assert.equal(200, res.statusCode);
         assert.notEqual(null, res.body);
         assert.notEqual([], res.body);
@@ -34,7 +35,7 @@ describe('Projects controller', () => {
     agent
       .get('/api/v1/projects')
       .set('authorization', token_pm)
-      .end((er, res) => {
+      .end((err, res) => {
         assert.equal(200, res.statusCode);
         assert.ok(res.body);
         res.body.forEach(item => {
@@ -48,7 +49,15 @@ describe('Projects controller', () => {
     agent
       .post('/api/v1/projects')
       .set('authorization', token_pm)
-      .end((er, res) => {
+      .send({
+        name: 'New Project',
+        user_id: PM_ID,
+        start: moment().format('YYYY-MM-DD'),
+        finish: moment()
+          .add(90, 'days')
+          .format('YYYY-MM-DD')
+      })
+      .end((err, res) => {
         assert.equal(201, res.statusCode);
         assert.ok(res.body);
         assert.equal(true, res.body.hasOwnProperty('id'));
