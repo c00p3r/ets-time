@@ -5,5 +5,6 @@ module.exports = {
   users: require('./users'),
   skills: require('./skills'),
   dictionaries: require('./dictionaries'),
-  stat: require('./stat')
+  stat: require('./stat'),
+  projects: require('./projects')
 };

@@ -1,10 +1,10 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const {validators: {users_list, user_create, user_edit}} = require('./../middlewares/index');
+const {validators: {user_list, user_create, user_edit}} = require('./../middlewares/index');
 const knex = require('./../libs/knex');
-// const _ = require('lodash');
 const async = require('async');
+// const _ = require('lodash');
 
 // username, position, role
 const criteriaForList = function (params) {
@@ -47,7 +47,7 @@ router.patch('/', user_edit, (req, res, next) => {
 });
 
 /* GET users listing. */
-router.get('/', users_list, async (req, res) => {
+router.get('/', user_list, async (req, res) => {
   let params = req.query;
 
   async.parallel(

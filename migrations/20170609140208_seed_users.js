@@ -8,7 +8,7 @@ exports.up = knex => {
       first_name: 'Owner',
       last_name: 'Owner',
       password: bcrypt.hashSync('password', salt),
-      position: 'default',
+      position: 'owner',
       roles: 'owner',
       created_at: new Date(),
       updated_at: new Date()
@@ -18,7 +18,17 @@ exports.up = knex => {
       first_name: 'Pm',
       last_name: 'Pm',
       password: bcrypt.hashSync('password', salt),
-      position: 'default',
+      position: 'pm',
+      roles: 'pm',
+      created_at: new Date(),
+      updated_at: new Date()
+    },
+    {
+      email: 'dev-pm@mail.com',
+      first_name: 'Dev',
+      last_name: 'Pm',
+      password: bcrypt.hashSync('password', salt),
+      position: 'member,pm',
       roles: 'pm',
       created_at: new Date(),
       updated_at: new Date()
