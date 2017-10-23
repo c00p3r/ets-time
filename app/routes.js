@@ -5,7 +5,8 @@ const {
   lines: linesCtrl,
   dictionaries: dictionariesCtrl,
   stat: statCtrl,
-  projects: projectsCtrl
+  projects: projectsCtrl,
+  project_activities: projectsActivitiesCtrl
 } = require('./controllers/index');
 const { role, auth, no_cache: nc } = require('./middlewares');
 
@@ -17,4 +18,5 @@ module.exports = app => {
   app.use('/api/v1/stat', nc, auth, statCtrl);
   app.use('/api/v1/skills', nc, auth, role(['owner', 'pm']), skillsCtrl);
   app.use('/api/v1/projects', nc, auth, role(['owner', 'pm']), projectsCtrl);
+  app.use('/api/v1/project_activities', nc, auth, role(['owner']), projectsActivitiesCtrl);
 };

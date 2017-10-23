@@ -6,5 +6,6 @@ module.exports = {
   skills: require('./skills'),
   dictionaries: require('./dictionaries'),
   stat: require('./stat'),
-  projects: require('./projects')
+  projects: require('./projects'),
+  project_activities: require('./project_activities')
 };
