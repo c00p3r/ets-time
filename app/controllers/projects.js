@@ -25,4 +25,13 @@ router.post('/', project_create, (req, res, next) => {
     .catch(next);
 });
 
+/* Update project */
+router.patch('/', project_edit, (req, res, next) => {
+  knex('projects')
+    .where({id: req._vars.id})
+    .update(req._vars)
+    .then(() => res.status(200).send())
+    .catch(next);
+});
+
 module.exports = router;

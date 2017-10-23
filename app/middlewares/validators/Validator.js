@@ -65,7 +65,7 @@ Validator.registerAsync('unique', (email, attribute, req, passes) => {
       passes(!count.c, 'This email has already been taken.');
     })
     .catch(() => {
-      passes(false, 'Error in Validator.js:19');
+      passes(false, 'Error in Validator.js:68');
     });
 });
 
@@ -81,7 +81,7 @@ Validator.registerAsync('user_exist', (user_id, attribute, req, passes) => {
       passes(count.c === 1, 'User not found');
     })
     .catch(() => {
-      passes(false, 'Error in Validator.js:34');
+      passes(false, 'Error in Validator.js:84');
     });
 });
 
@@ -97,7 +97,7 @@ Validator.registerAsync('email_exist', (email_exist, attribute, req, passes) => 
       passes(count.c === 1, 'Email not found');
     })
     .catch(() => {
-      passes(false, 'Error in Validator.js:50');
+      passes(false, 'Error in Validator.js:100');
     });
 });
 
@@ -113,27 +113,12 @@ Validator.registerAsync('exist_skill', (skill_id_exist, attribute, req, passes) 
       .first()
       .count('* as c')
       .then(count => passes(count.c === 1, 'Skill not found'))
-      .catch(() => passes(false, 'Error in Validator.js:66'));
+      .catch(() => passes(false, 'Error in Validator.js:116'));
   }
 });
 
 /**
- * Validate comma-separated positions
- */
-/**
- * Async
- */
-// Validator.registerAsync('positions_exist', (positions, attribute, req, passes) => {
-//     let valid = true;
-//     positions.split(',').forEach(position => {
-//         if(position === '') return;
-//         if(env.positions.indexOf(position) === -1) valid = false;
-//     });
-//     passes(valid, 'No such position');
-// });
-
-/**
- * Sync
+ * Sync validate comma-separated positions exist in config
  */
 Validator.register(
   'positions_exist',
@@ -147,5 +132,17 @@ Validator.register(
   },
   'No such position'
 );
+
+/**
+ * Async validate if project exists
+ */
+Validator.registerAsync('project_exist', (id, attribute, req, passes) => {
+  knex('projects')
+    .where('id', id)
+    .first()
+    .count('* as c')
+    .then(count => passes(count.c === 1, 'Project not found'))
+    .catch(() => passes(false, 'Error in Validator.js:145'));
+});
 
 module.exports = Validator;

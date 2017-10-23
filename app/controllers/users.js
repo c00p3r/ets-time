@@ -48,13 +48,11 @@ router.patch('/', user_edit, (req, res, next) => {
 
 /* GET users listing. */
 router.get('/', user_list, async (req, res) => {
-  let params = req.query;
-
   async.parallel(
     {
       count: callback => {
         knex('users')
-          .where(criteriaForList(params))
+          .where(criteriaForList(req.query))
           .count('* as c')
           .first()
           .asCallback(callback);
@@ -62,7 +60,7 @@ router.get('/', user_list, async (req, res) => {
       list: callback => {
         knex('users')
           .select('first_name', 'last_name', 'roles', 'position', 'email', 'rate', 'id', 'locked')
-          .where(criteriaForList(params))
+          .where(criteriaForList(req.query))
           .orderBy('locked', 'asc')
           .orderBy('first_name', 'asc')
           .asCallback(callback);
