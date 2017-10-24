@@ -7,7 +7,7 @@ const salt = bcrypt.genSaltSync();
 
 module.exports = (req, res, next) => {
   const rules = {
-    id: 'required|user_exist',
+    id: 'required|exist:users',
     first_name: 'required|min:2',
     last_name: 'required|min:2',
     position: 'required|array|in:' + env.positions.join(','),

@@ -3,7 +3,7 @@ const {pick} = require('lodash');
 
 module.exports = (req, res, next) => {
   let rules = {
-    id: 'required|project_exist',
+    id: 'required|integer|exist:projects',
     name: 'required|string|min:2',
     desc: 'string',
     start: 'required|date|my_date',
@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
   let is_owner = req._user.roles.indexOf('owner') !== -1;
 
   if (is_owner) {
-    rules.user_id = 'integer|min:1|user_exist';
+    rules.user_id = 'required|integer|min:1|exist:users';
   }
 
   if (!is_owner && typeof req.body.user_id !== 'undefined') {
@@ -23,7 +23,7 @@ module.exports = (req, res, next) => {
   const validate = new Validator(req.body, rules);
 
   validate.passes(() => {
-    req._vars = pick(req.body, ['id', 'name', 'desc', 'start', 'finish']);
+    req._vars = pick(req.body, Object.keys(rules));
     if (is_owner && typeof req.body.user_id !== 'undefined') {
       req._vars.user_id = req.body.user_id;
     }

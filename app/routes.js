@@ -18,5 +18,5 @@ module.exports = app => {
   app.use('/api/v1/stat', nc, auth, statCtrl);
   app.use('/api/v1/skills', nc, auth, role(['owner', 'pm']), skillsCtrl);
   app.use('/api/v1/projects', nc, auth, role(['owner', 'pm']), projectsCtrl);
-  app.use('/api/v1/project_activities', nc, auth, role(['owner']), projectsActivitiesCtrl);
+  app.use('/api/v1/project_activities', nc, auth, role(['owner', 'pm']), projectsActivitiesCtrl);
 };

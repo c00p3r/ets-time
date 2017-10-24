@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
   const rules = {
     username: 'string|min:3',
     // position: 'string|in:' + env.positions.join(','),
-    position: 'string|positions_exist',
+    position: 'string|position_exist',
     role: 'string|in:' + env.roles.join(',')
   };
   const validate = new Validator(req.query, rules);

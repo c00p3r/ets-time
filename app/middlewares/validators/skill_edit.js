@@ -5,10 +5,10 @@ const { pick } = require('lodash');
 
 module.exports = (req, res, next) => {
   const rules = {
-    id: 'required|integer|min:0|exist_skill',
+    id: 'required|integer|min:0|exist:skills',
     name: 'required|min:2',
     desc: 'min:5',
-    parent_id: 'required|min:1|exist_skill'
+    parent_id: 'required|min:1|exist:skills'
   };
 
   const validate = new Validator(req.body, rules);

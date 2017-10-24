@@ -4,7 +4,7 @@ const { pick } = require('lodash');
 
 module.exports = (req, res, next) => {
   const rules = {
-    parent_id: 'required|min:1|exist_skill',
+    parent_id: 'required|min:1|exist:skills',
     name: 'required|min:2',
     desc: 'min:5'
   };

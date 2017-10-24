@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 module.exports = (req, res, next) => {
   const rules = {
-    user_id: 'user_exist'
+    user_id: 'exist:users'
   };
 
   const validate = new Validator(req.params, rules);

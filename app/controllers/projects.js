@@ -21,7 +21,21 @@ router.get('/', (req, res, next) => {
 router.post('/', project_create, (req, res, next) => {
   knex('projects')
     .insert(req._vars)
-    .then(result => res.status(201).send({id: result[0]}))
+    .then(result => {
+      // add project activity for PM automatically
+      const project_id = result[0];
+      const data = {
+        project_id: project_id,
+        user_id: req._vars.user_id,
+        involvement: 8, // default
+        start: req._vars.start,
+        finish: req._vars.finish
+      };
+      knex('project_activities')
+        .insert(data)
+        .then(result => res.status(201).end({id: project_id}))
+        .catch(next);
+    })
     .catch(next);
 });
 

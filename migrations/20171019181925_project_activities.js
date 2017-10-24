@@ -11,6 +11,11 @@ exports.up = function (knex, Promise) {
       .unsigned()
       .notNullable()
       .comment('Project member ID');
+    table
+      .integer('involvement')
+      .unsigned()
+      .notNullable()
+      .comment('How many hours per day');
     table.date('start');
     table.date('finish');
     table.collate('utf8_general_ci');

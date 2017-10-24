@@ -72,56 +72,64 @@ Validator.registerAsync('unique', (email, attribute, req, passes) => {
 /**
  * Get exist user
  */
-Validator.registerAsync('user_exist', (user_id, attribute, req, passes) => {
-  knex('users')
-    .where('id', user_id)
-    .first()
-    .count('* as c')
-    .then(count => {
-      passes(count.c === 1, 'User not found');
-    })
-    .catch(() => {
-      passes(false, 'Error in Validator.js:84');
-    });
-});
+// Validator.registerAsync('user_exist', (user_id, attribute, req, passes) => {
+//   knex('users')
+//     .where('id', user_id)
+//     .first()
+//     .count('* as c')
+//     .then(count => {
+//       passes(count.c === 1, 'User not found');
+//     })
+//     .catch(() => {
+//       passes(false, 'Error in Validator.js:84');
+//     });
+// });
 
 /**
  * Get exist email
  */
-Validator.registerAsync('email_exist', (email_exist, attribute, req, passes) => {
-  knex('users')
-    .where('email', email_exist)
-    .first()
-    .count('* as c')
-    .then(count => {
-      passes(count.c === 1, 'Email not found');
-    })
-    .catch(() => {
-      passes(false, 'Error in Validator.js:100');
-    });
-});
+// Validator.registerAsync('email_exist', (email_exist, attribute, req, passes) => {
+//   knex('users')
+//     .where('email', email_exist)
+//     .first()
+//     .count('* as c')
+//     .then(count => passes(count.c === 1, 'Email not found'))
+//     .catch(() =>passes(false, 'Error in Validator.js:100'));
+// });
 
 /**
  * Get exist skill
  */
-Validator.registerAsync('exist_skill', (skill_id_exist, attribute, req, passes) => {
-  if (skill_id_exist === null) {
-    passes();
-  } else {
-    knex('skills')
-      .where('id', skill_id_exist)
-      .first()
-      .count('* as c')
-      .then(count => passes(count.c === 1, 'Skill not found'))
-      .catch(() => passes(false, 'Error in Validator.js:116'));
-  }
+// Validator.registerAsync('exist_skill', (skill_id_exist, attribute, req, passes) => {
+//   if (skill_id_exist === null) {
+//     passes();
+//   } else {
+//     knex('skills')
+//       .where('id', skill_id_exist)
+//       .first()
+//       .count('* as c')
+//       .then(count => passes(count.c === 1, 'Skill not found'))
+//       .catch(() => passes(false, 'Error in Validator.js:116'));
+//   }
+// });
+
+/**
+ * Async validate if record exists in given DB table
+ */
+Validator.registerAsync('exist', (id, table, attribute, passes) => {
+  knex(table)
+    .where('id', id)
+    .first()
+    .count('* as c')
+    .then(count => passes(count.c === 1, 'Record not found in table "' + table + '"'))
+    .catch(() => passes(false, 'Error in Validator.js:119'));
 });
 
 /**
  * Sync validate comma-separated positions exist in config
  */
 Validator.register(
-  'positions_exist',
+  'position_exist',
   (positions, attribute, req) => {
     let valid = true;
     positions.split(',').forEach(position => {
@@ -132,17 +140,5 @@ Validator.register(
   },
   'No such position'
 );
-
-/**
- * Async validate if project exists
- */
-Validator.registerAsync('project_exist', (id, attribute, req, passes) => {
-  knex('projects')
-    .where('id', id)
-    .first()
-    .count('* as c')
-    .then(count => passes(count.c === 1, 'Project not found'))
-    .catch(() => passes(false, 'Error in Validator.js:145'));
-});
 
 module.exports = Validator;

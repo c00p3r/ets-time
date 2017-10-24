@@ -3,7 +3,7 @@ const Validator = require('./Validator');
 
 module.exports = (req, res, next) => {
   const rules = {
-    id: 'required|integer|min:0|exist_skill'
+    id: 'required|integer|min:0|exist:skills'
   };
   const validate = new Validator(req.body, rules);
   validate.passes(next);

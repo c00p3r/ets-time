@@ -12,8 +12,9 @@ const MEMBER_ID = 4;
 const PROJECT_ID = 2;
 
 let token_owner = jwt.sign({id: ADMIN_ID}, env.secret);
+let token_pm = jwt.sign({id: PM_ID}, env.secret);
 
-describe('Projects controller', () => {
+describe('Project activity controller', () => {
   before(done => {
     require('./TestCase')(knex, done);
   });
@@ -48,78 +49,43 @@ describe('Projects controller', () => {
       });
   });
 
-  // it('returns 201 with new record ID after successful project create', done => {
-  //   agent
-  //     .post('/api/v1/projects')
-  //     .set('authorization', token_pm)
-  //     .send({
-  //       name: 'New Project',
-  //       start: moment().format('YYYY-MM-DD'),
-  //       finish: moment()
-  //         .add(90, 'days')
-  //         .format('YYYY-MM-DD')
-  //     })
-  //     .end((err, res) => {
-  //       assert.equal(201, res.statusCode);
-  //       assert.ok(res.body);
-  //       assert.equal(true, res.body.hasOwnProperty('id'));
-  //       done();
-  //     });
-  // });
-  //
-  // it('returns 200 after successful project update', done => {
-  //   agent
-  //     .patch('/api/v1/projects')
-  //     .set('authorization', token_pm)
-  //     .send({
-  //       id: 2,
-  //       name: 'Updated Project Name',
-  //       start: moment().format('YYYY-MM-DD'),
-  //       finish: moment()
-  //         .add(90, 'days')
-  //         .format('YYYY-MM-DD')
-  //     })
-  //     .end((err, res) => {
-  //       assert.equal(200, res.statusCode);
-  //       done();
-  //     });
-  // });
-  //
-  // it('returns 403 if user have no permission to change project PM', done => {
-  //   agent
-  //     .patch('/api/v1/projects')
-  //     .set('authorization', token_pm)
-  //     .send({
-  //       id: 2,
-  //       name: 'Updated Project Name',
-  //       user_id: PM_ID,
-  //       start: moment().format('YYYY-MM-DD'),
-  //       finish: moment()
-  //         .add(90, 'days')
-  //         .format('YYYY-MM-DD')
-  //     })
-  //     .end((err, res) => {
-  //       assert.equal(403, res.statusCode);
-  //       done();
-  //     });
-  // });
-  //
-  // it('returns 200 after successful project PM update by owner', done => {
-  //   agent
-  //     .patch('/api/v1/projects')
-  //     .set('authorization', token_owner)
-  //     .send({
-  //       id: 2,
-  //       name: 'Updated Project Name',
-  //       user_id: PM_ID,
-  //       start: moment().format('YYYY-MM-DD'),
-  //       finish: moment()
-  //         .add(90, 'days')
-  //         .format('YYYY-MM-DD')
-  //     })
-  //     .end((err, res) => {
-  //       assert.equal(200, res.statusCode);
-  //       done();
-  //     });
-  // });
+  it('returns 201 after successful project activity create', done => {
+    agent
+      .post('/api/v1/project_activities')
+      .set('authorization', token_pm)
+      .send({
+        user_id: MEMBER_ID,
+        project_id: PROJECT_ID,
+        involvement: 4,
+        start: moment().format('YYYY-MM-DD'),
+        finish: moment()
+          .add(30, 'days')
+          .format('YYYY-MM-DD')
+      })
+      .end((err, res) => {
+        assert.equal(201, res.statusCode);
+        assert.ok(res.body);
+        done();
+      });
+  });
+
+  it('returns 200 after successful project update', done => {
+    agent
+      .patch('/api/v1/project_activities')
+      .set('authorization', token_pm)
+      .send({
+        id: 3,
+        user_id: MEMBER_ID,
+        project_id: PROJECT_ID,
+        involvement: 4,
+        start: moment().format('YYYY-MM-DD'),
+        finish: moment()
+          .add(2, 'days')
+          .format('YYYY-MM-DD')
+      })
+      .end((err, res) => {
+        assert.equal(200, res.statusCode);
+        done();
+      });
+  });
 });

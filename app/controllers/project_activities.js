@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const knex = require('./../libs/knex');
-// const { validators: { project_list, project_create, project_edit} } = require('./../middlewares/index');
+const {
+  validators: {project_activity_list, project_activity_create, project_activity_edit}
+} = require('./../middlewares/index');
 
 const criteriaForList = function (params) {
   return function () {
@@ -39,22 +41,20 @@ router.get('/', (req, res, next) => {
 });
 
 /* Create project */
-// router.post('/', project_create, (req, res, next) => {
-//   let data = req._vars;
-//   data.user_id = req._user.id;
-//   knex('project_activities')
-//     .insert(req._vars)
-//     .then(result => res.status(201).send({ id: result[0] }))
-//     .catch(next);
-// });
+router.post('/', project_activity_create, (req, res, next) => {
+  knex('project_activities')
+    .insert(req._vars)
+    .then(result => res.status(201).end())
+    .catch(next);
+});
 
 /* Update project */
-// router.patch('/', project_edit, (req, res, next) => {
-//   knex('project_activities')
-//     .where({ id: req._vars.id })
-//     .update(req._vars)
-//     .then(() => res.status(200).send())
-//     .catch(next);
-// });
+router.patch('/', project_activity_edit, (req, res, next) => {
+  knex('project_activities')
+    .where({id: req._vars.id})
+    .update(req._vars)
+    .then(() => res.status(200).send())
+    .catch(next);
+});
 
 module.exports = router;

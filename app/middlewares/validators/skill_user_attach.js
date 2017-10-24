@@ -4,8 +4,8 @@ const { pick, range } = require('lodash');
 
 module.exports = (req, res, next) => {
   const rules = {
-    skill_id: 'required|integer|min:1|exist_skill',
-    user_id: 'required|integer|min:1|user_exist',
+    skill_id: 'required|integer|min:1|exist:skills',
+    user_id: 'required|integer|min:1|exist:users',
     value: 'required|in:' + range(0, 11).join()
   };
 

@@ -5,8 +5,8 @@ const PROJECT_ID = 2;
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min; // [min, max)
+  max = Math.floor(max + 1);
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 
 exports.up = function (knex, Promise) {
@@ -47,13 +47,15 @@ exports.up = function (knex, Promise) {
           data.push({
             project_id: PROJECT_ID,
             user_id: MEMBER_ID,
+            involvement: getRandomInt(1, 8),
             start: new Date(getRandomInt(2015, 2018), getRandomInt(1, 12), getRandomInt(1, 28)),
             finish: new Date(getRandomInt(2015, 2018), getRandomInt(1, 12), getRandomInt(1, 28))
           });
           for (let i = 0; i < 10; i++) {
             data.push({
-              project_id: projects[getRandomInt(0, projects.length)]['id'],
-              user_id: members[getRandomInt(0, members.length)]['id'],
+              project_id: projects[getRandomInt(0, projects.length - 1)]['id'],
+              user_id: members[getRandomInt(0, members.length - 1)]['id'],
+              involvement: getRandomInt(1, 8),
               start: new Date(getRandomInt(2015, 2018), getRandomInt(1, 12), getRandomInt(1, 28)),
               finish: new Date(getRandomInt(2015, 2018), getRandomInt(1, 12), getRandomInt(1, 28))
             });

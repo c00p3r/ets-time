@@ -5,7 +5,7 @@ const { getDatesInMounth } = require('./../../helpers');
 
 module.exports = (req, res, next) => {
   const rules = {
-    user_id: 'required|integer|min:1|user_exist',
+    user_id: 'required|integer|min:1|exist:users',
     month: 'regex:/^\\d{4}-\\d{2}-01$/|my_date'
   };
 
