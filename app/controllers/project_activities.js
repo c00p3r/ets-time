@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const knex = require('./../libs/knex');
 const {
-  validators: {project_activity_list, project_activity_create, project_activity_edit}
+  validators: { project_activity_list, project_activity_create, project_activity_edit }
 } = require('./../middlewares/index');
 
-const criteriaForList = function (params) {
-  return function () {
+const criteriaForList = function(params) {
+  return function() {
     let query = this;
 
     if (params.user_id) {
@@ -51,7 +51,7 @@ router.post('/', project_activity_create, (req, res, next) => {
 /* Update project */
 router.patch('/', project_activity_edit, (req, res, next) => {
   knex('project_activities')
-    .where({id: req._vars.id})
+    .where({ id: req._vars.id })
     .update(req._vars)
     .then(() => res.status(200).send())
     .catch(next);
