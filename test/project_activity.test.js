@@ -11,8 +11,10 @@ const PM_ID = 2;
 const MEMBER_ID = 4;
 const PROJECT_ID = 2;
 
-let token_owner = jwt.sign({id: ADMIN_ID}, env.secret);
-let token_pm = jwt.sign({id: PM_ID}, env.secret);
+let token_owner = jwt.sign({ id: ADMIN_ID }, env.secret);
+let token_member = jwt.sign({ id: PM_ID }, env.secret);
+
+// TODO: probably not finished
 
 describe('Project activity controller', () => {
   before(done => {
@@ -23,7 +25,7 @@ describe('Project activity controller', () => {
     agent
       .get('/api/v1/project_activities')
       .set('authorization', token_owner)
-      .query({project_id: PROJECT_ID})
+      .query({ project_id: PROJECT_ID })
       .end((err, res) => {
         assert.equal(200, res.statusCode);
         assert.ok(res.body);
@@ -38,7 +40,7 @@ describe('Project activity controller', () => {
     agent
       .get('/api/v1/project_activities')
       .set('authorization', token_owner)
-      .query({user_id: MEMBER_ID})
+      .query({ user_id: MEMBER_ID })
       .end((err, res) => {
         assert.equal(200, res.statusCode);
         assert.ok(res.body);

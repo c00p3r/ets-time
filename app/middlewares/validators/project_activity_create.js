@@ -1,5 +1,5 @@
 const Validator = require('./Validator');
-const {pick} = require('lodash');
+const { pick } = require('lodash');
 
 module.exports = (req, res, next) => {
   const rules = {
