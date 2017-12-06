@@ -32,6 +32,7 @@ module.exports = (req, res, next) => {
         if (count.c) {
           let vars = pick(req.body, ['project', 'task', 'type_work', 'hours', 'date_task']);
           vars.status = 'Open';
+          vars.updated_at = new Date();
           req._vars = vars;
           next();
         } else {
