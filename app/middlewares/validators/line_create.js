@@ -18,6 +18,7 @@ module.exports = (req, res, next) => {
   } else {
     let vars = pick(req.body, ['project', 'task', 'type_work', 'hours', 'date_task']);
     vars.user_id = req._user.id;
+    vars.created_at = new Date();
     req._vars = vars;
     next();
   }
